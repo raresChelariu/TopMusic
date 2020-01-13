@@ -1,0 +1,8 @@
+Sun is up;Inna;House;great;1234;0;
+It's my life;Bon Jovi;Rock;great;1234;0;
+Livin on a prayer;Bon Jovi;Rock;great;1234;0;
+You give love a bad name;Bon Jovi;Rock;great;1234;0;
+Hells Bells;ACDC;Rock;great;1234;0;
+Thunderstruck;ACDC;Rock;great;1234;0;
+Kind of blue;John Coltrane;Jazz;awesome;1234112312;0;
+Blue;Jimmy Sax;Jazz;jazzy;12838web;0;
