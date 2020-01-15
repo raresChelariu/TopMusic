@@ -38,4 +38,5 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui \
-    songswindow.ui
+    songswindow.ui \
+    stuff.ui

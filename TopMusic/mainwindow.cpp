@@ -36,6 +36,7 @@ void MainWindow::on_btnLogin_clicked()
     read(AppTop::client->sd, msg, 256);
     if (!strcmp(msg, "LOGIN_VALID"))
     {
+        AppTop::clientName = ui->leUsername->text().toStdString();
         SongsWindow* window = new SongsWindow();
         window->show();
         this->hide();

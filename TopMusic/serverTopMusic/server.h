@@ -1,13 +1,18 @@
 #pragma once
 #include "pch.h"
 #include "threadAdaptor.h"
+
+#define FILENAME_SONGS "appsongs.txt"
 #define NO_MAX_THREADS 100
 #define LISTEN_TRIES 30
 #define PORT 4000
+
 using namespace std;
+
 class Server
 {
 private:
+
     sockaddr_in sockS, sockC;
     int sd;
     int noThreads{0};
@@ -15,13 +20,22 @@ private:
     pthread_t threads[NO_MAX_THREADS];
     long long timeOfLastUpdate{0};
 public:
+    static pthread_mutex_t lock;
     Server();
+    ~Server();
+public:
     int acceptClient();
     void createThread(int clientDescriptor);
-    void loadSongs();
+    void loadSongs();    
     int getGenre(char* genre);
 };
+pthread_mutex_t Server::lock;
 
+
+Server::~Server()
+{
+    pthread_mutex_destroy(&lock);
+}
 Server::Server()
 {
     memset(threads, 0, sizeof(pthread_t)*NO_MAX_THREADS);
@@ -32,6 +46,11 @@ Server::Server()
     sockS.sin_port = htons(PORT);
     sockS.sin_addr.s_addr = htonl(INADDR_ANY);
 
+    if (0 != pthread_mutex_init(&Server::lock, NULL))
+    {
+        printf("Lock initialization has failed!\n");
+        exit(0);
+    }
     if (-1 == (sd = socket(AF_INET, SOCK_STREAM, 0)))
     {
         printf("Error on creating socket!\n");
@@ -64,11 +83,11 @@ int Server::acceptClient()
 }
 void Server::createThread(int clientDescriptor)
 {
-    ThreadAdaptor* th = new ThreadAdaptor(&this->threads[this->noThreads++], clientDescriptor, &this->timeOfLastUpdate, &allSongs);
+    ThreadAdaptor* th = new ThreadAdaptor(&this->threads[this->noThreads++], clientDescriptor, &this->timeOfLastUpdate, &allSongs, &lock);
 }
 void Server::loadSongs()
 {
-    FILE* fin = fopen("appsongs.txt", "r");
+    FILE* fin = fopen(FILENAME_SONGS, "r");
     char line[256];
     Song s;
     string str;
@@ -121,3 +140,4 @@ int Server::getGenre(char* genre)
     if (!strcmp(genre, "Rock"))
         return Song::Rock;
 }
+

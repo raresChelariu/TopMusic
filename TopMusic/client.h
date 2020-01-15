@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <sys/time.h>
 #include <netinet/in.h>
+#include <string>
 
 class Client
 {
@@ -14,5 +15,6 @@ public:
     sockaddr_in sock;
     int sd;
     Client();
+
     void connectToServer();
 };

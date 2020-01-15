@@ -1,5 +1,8 @@
+#include "pch.h"
+#include "song.h"
 #include "server.h"
 
+#include "threadAdaptor.h"
 int main()
 {
     Server s;
